@@ -1,0 +1,41 @@
+<html>
+
+<head>
+  <title>Rust WASM Calculator</title>
+  <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+</head>
+
+<body>
+  <!-- LOAD WASM -->
+  <script type="module">
+    import { evaluate, default as init } from './rustcalc.js';
+    async function run() {
+      await init('./rustcalc_bg.wasm');
+      window.evaluate_wasm = function (expr) {
+        let result = evaluate(expr); // Call the compiled WASM function
+        if (result.success) {
+          document.getElementById("result").innerText = result.value;
+        } else {
+          document.getElementById("result").innerText = result.error;
+        }
+      };
+    }
+    run();
+  </script>
+
+  <!-- HEADER -->
+  <h1>Rust WASM Calculator</h1>
+
+  <!-- INPUT -->
+  <form onSubmit="return false">
+    <label for="expression">Expression:</label>
+    <input name="expression" value="1+9*3^2" />
+    <input type="submit" value="Evaluate" onClick="evaluate_wasm(expression.value)">
+  </form>
+
+  <!-- RESULT -->
+  <p id="result" style="font-weight: bold;"></p>
+
+</body>
+
+</html>

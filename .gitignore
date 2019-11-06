@@ -1,0 +1,7 @@
+# Rust
+/target
+**/*.rs.bk
+
+# Compiled WASM
+www/rustcalc_bg.wasm
+www/rustcalc.js
